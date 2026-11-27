@@ -1,0 +1,17 @@
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ink-50);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;color:var(--text-strong)}
+a{color:var(--violet-500);text-decoration:none}
+a:hover{color:var(--violet-600)}
+button,input,select,textarea{font-family:var(--font-sans)}
+.leaflet-container{font-family:var(--font-sans);background:var(--ink-100)}
+
+/* hover / focus states from the design (style-hover / style-focus) */
+.h-ink50:hover{background:var(--ink-50) !important}
+.h-ink100:hover{background:var(--ink-100) !important}
+.h-raised:hover{box-shadow:var(--shadow-raised) !important}
+.f-violet:focus{border-color:var(--violet-400) !important}

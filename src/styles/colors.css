@@ -1,0 +1,19 @@
+/* Buyer-Track colors — sampled from product screenshots */
+:root{
+--violet-50:#F3F0FE;--violet-100:#ECE8FD;--violet-200:#D6CEFB;--violet-300:#B6A8F7;--violet-400:#8C78F1;--violet-500:#553FE9;--violet-600:#4A33DB;--violet-700:#3E28C2;--violet-800:#2F1E96;--violet-900:#1F1466;
+--teal-400:#3CCFC4;--teal-500:#2FB9B4;--teal-600:#1F9E99;
+--mint-100:#D9FBF3;--mint-500:#1FC79B;--mint-700:#0E8F6C;
+--gold-400:#F9BF13;--gold-500:#EEC12E;--coin-500:#F2A33A;--coin-100:#FEF3E4;
+--green-100:#E3FBE8;--green-500:#22B856;
+--red-100:#FFEBEE;--red-500:#F0384B;
+--ink-900:#151536;--ink-800:#24244A;--ink-600:#505068;--ink-500:#7C7C92;--ink-400:#A3A3B5;--ink-300:#C9C9D6;--ink-200:#E7E7EF;--ink-100:#F2F2F7;--ink-50:#F8F8FC;--white:#FFFFFF;
+/* semantic */
+--brand:var(--violet-500);--brand-hover:var(--violet-600);--brand-press:var(--violet-700);--brand-soft:var(--violet-50);--brand-tint:var(--violet-100);
+--surface-hero:var(--violet-500);--surface-page:var(--ink-50);--surface-card:var(--white);--surface-sunken:var(--ink-100);
+--text-strong:var(--ink-900);--text-body:var(--ink-600);--text-muted:var(--ink-400);--text-on-brand:var(--white);--text-brand:var(--violet-500);--text-price:var(--violet-500);
+--border-subtle:var(--ink-200);--border-brand:var(--violet-300);
+--positive:var(--green-500);--positive-soft:var(--green-100);--negative:var(--red-500);--negative-soft:var(--red-100);
+--rating:var(--gold-400);--coin:var(--coin-500);
+--badge-featured:var(--mint-500);--badge-turbo:var(--gold-500);--badge-picked-bg:var(--mint-100);--badge-picked-fg:var(--mint-700);
+--gradient-promo:linear-gradient(115deg,#553FE9 0%,#5A5CEB 45%,#2FB9B4 100%); /* @kind color */
+}

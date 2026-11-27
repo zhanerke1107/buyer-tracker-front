@@ -1,0 +1,12 @@
+:root{
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;
+--gutter-screen:20px;--gap-section:28px;--gap-card:12px;
+--radius-xs:6px;--radius-sm:10px;--radius-md:14px;--radius-lg:18px;--radius-xl:28px;--radius-sheet:32px;--radius-pill:999px;
+--shadow-card:0 2px 10px rgba(21,21,54,.05);
+--shadow-raised:0 6px 20px rgba(21,21,54,.08);
+--shadow-fab:0 10px 24px rgba(85,63,233,.40);
+--shadow-tabbar:0 -6px 24px rgba(21,21,54,.06);
+--border-hairline:1px solid var(--ink-200); /* @kind other */
+--ease-standard:cubic-bezier(.2,.7,.2,1); /* @kind other */--dur-fast:120ms; /* @kind other */--dur-base:200ms; /* @kind other */--dur-slow:320ms; /* @kind other */
+--tap-min:44px; /* @kind spacing */
+}
