@@ -1,8 +1,13 @@
-// Leaflet map (OpenStreetMap tiles). Shows only confirmed city checkpoints, never invented GPS.
+// Leaflet map on a realistic street-map base with place names. Shows only confirmed city checkpoints, never invented GPS.
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CITY } from '../lib/core.js';
+
+// Base map: Esri World Street Map — realistic colours, relief, water, roads, country and city names
+// (keyless, free with attribution).
+const BASE_URL = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+const BASE_ATTR = 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, USGS, &copy; OpenStreetMap contributors';
 
 export default function RouteMap({ spec, style }) {
   const elRef = useRef(null);
@@ -15,7 +20,7 @@ export default function RouteMap({ spec, style }) {
   useEffect(() => {
     const el = elRef.current;
     const m = L.map(el, { scrollWheelZoom: !!spec.wheel, worldCopyJump: true });
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(m);
+    L.tileLayer(BASE_URL, { maxZoom: 19, attribution: BASE_ATTR }).addTo(m);
     m.setView([44, 76], 3);
     mapRef.current = m;
     layerRef.current = L.layerGroup().addTo(m);
@@ -62,5 +67,9 @@ export default function RouteMap({ spec, style }) {
     }
   }
 
-  return <div ref={elRef} style={{ borderRadius: 10, overflow: 'hidden', background: 'var(--ink-100)', position: 'relative', zIndex: 0, ...style }} />;
+  return (
+    <div style={{ position: 'relative', zIndex: 0, borderRadius: 10, overflow: 'hidden', background: 'var(--ink-100)', ...style }}>
+      <div ref={elRef} style={{ position: 'absolute', inset: 0 }} />
+    </div>
+  );
 }
