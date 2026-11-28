@@ -86,7 +86,8 @@ export function buildVM(self, props = {}) {
   const spec = (list, sel, wheel) => ({ wheel, hasSel: !!sel, onPick: id => self.setState({ mapSel: id }), routes: list.map(s => ({ id: s.id, names: s.route, conf: s.conf, done: s.stage >= 7, sel: sel === true || sel === s.id, dim: !!sel && sel !== true && sel !== s.id, label: (s.stage >= 7 ? 'доставлено · ' : '') + s.lastCity + ' · ' + fdt(s.lastAt) })) });
 
   // public tracking
-  const to = st.trackToken && D.orders.find(o => o.token === st.trackToken && !o.archived);
+  const DT = st.trackData ? B.derive(st.trackData) : null;
+  const to = st.trackToken && DT && DT.orders.find(o => o.token === st.trackToken && !o.archived);
   let tv = null;
   if (to) {
     const evs = []; to.ships.forEach(s => s.events.forEach(e => evs.push(Object.assign({}, e, { ship: s.id })))); evs.sort((a, b) => b.at - a.at);
@@ -110,7 +111,7 @@ export function buildVM(self, props = {}) {
       files: (oo.files || []).map((x, i) => ({ name: x.name, meta: x.kind + ' · ' + Math.max(1, Math.round(x.size / 1024)) + ' КБ', isImg: !!x.data, data: x.data || '', onRemove: () => A.removeFile(self, oo.id, i) })),
       link, onCopy: () => A.copy(self, link), onRegen: () => A.regen(self, oo.id), onPublic: () => { location.hash = '#/track/' + oo.token; },
       onEdit: () => A.openEdit(self), onArchive: () => A.archive(self, oo.id), onDelete: () => A.askDelete(self, oo.id), onMap: () => self.setState({ screen: 'map', mapSel: oo.ships[0].id, openOrder: null }), hasShips: oo.ships.length > 0,
-      note: nv, onNote: e => self.setState({ noteDraft: e.target.value }), noteDirty: st.noteDraft != null && st.noteDraft !== (oo.notes || ''), onSaveNote: () => { A.patchOrder(self, oo.id, { notes: st.noteDraft }); self.setState({ noteDraft: null }); A.toast(self, 'Заметка сохранена'); },
+      note: nv, onNote: e => self.setState({ noteDraft: e.target.value }), noteDirty: st.noteDraft != null && st.noteDraft !== (oo.notes || ''), onSaveNote: () => A.saveNote(self, oo.id, st.noteDraft),
       onFile: e => { A.addFiles(self, oo.id, e.target.files); e.target.value = ''; },
     };
   }
@@ -152,7 +153,7 @@ export function buildVM(self, props = {}) {
     isAuth: st.screen === 'auth', isTrack: st.screen === 'track', isApp, isDesktop: !mob, isMobile: mob, mainPad: mob ? '16px 14px 96px' : '28px 32px 48px',
     user: st.user || { name: '', email: '' }, initial: st.user ? st.user.name.slice(0, 1).toUpperCase() : '', logout: () => A.logout(self),
     nav, isDash: st.screen === 'dashboard', isOrders: st.screen === 'orders', isShips: st.screen === 'shipments', isMap: st.screen === 'map',
-    demo: !!d.demo, clearDemo: () => { self.setState({ data: B.empty(), sel: {}, openOrder: null }); A.toast(self, 'Демо-данные удалены'); }, loadDemo: () => { self.setState({ data: B.seed(), sel: {} }); A.toast(self, 'Демо-данные загружены'); },
+    demo: !!d.demo, clearDemo: () => A.clearDemo(self), loadDemo: () => A.loadDemo(self),
     openCreate: () => A.openCreate(self),
     // dashboard
     dashSeg: seg(self, [['A', 'Обзор'], ['B', 'Конвейер']], dashVar, 'dashVar'), dashA: dashVar === 'A', dashB: dashVar === 'B', kpis, attList, updates, upcoming, phases,
@@ -175,7 +176,7 @@ export function buildVM(self, props = {}) {
     mapSegAll: [{ label: 'Активные', active: !st.mapAll, onClick: () => self.setState({ mapAll: false }) }, { label: 'Все, вкл. доставленные', active: !!st.mapAll, onClick: () => self.setState({ mapAll: true }) }],
     mapList, msd, clearMapSel: () => self.setState({ mapSel: null }), mapH: mob ? '380px' : 'calc(100vh - 170px)',
     // track
-    tv, trackFound: !!tv, trackMissing: !!st.trackToken && !tv, trackEmpty: !st.trackToken, trackInput: st.trackInput, onTrackInput: e => self.setState({ trackInput: ev(e) }),
+    tv, trackFound: !!tv, trackMissing: !!st.trackToken && !tv && !st.trackLoading, trackEmpty: !st.trackToken, trackInput: st.trackInput, onTrackInput: e => self.setState({ trackInput: ev(e) }),
     onTrackSubmit: e => { e.preventDefault(); const v = st.trackInput.trim(); const m = v.match(/track\/([\w-]+)/); const t = m ? m[1] : v; if (t) location.hash = '#/track/' + t; },
     trackBack: () => { history.replaceState(null, '', location.pathname + location.search); self.setState({ screen: st.user ? 'dashboard' : 'auth', trackToken: null }); }, trackBackLabel: st.user ? 'Вернуться в кабинет' : 'Войти',
     // drawer + modals

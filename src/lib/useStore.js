@@ -22,8 +22,14 @@ export function useStore() {
   ref.current = state;
   const self = selfRef.current;
 
-  // persist data + user to localStorage
-  useEffect(() => { A.persist(self, state); }, [state.data, state.user]); // eslint-disable-line react-hooks/exhaustive-deps
+  // persist the signed-in user (data lives in the backend)
+  useEffect(() => { A.persist(self, state); }, [state.user]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // load workspace from the API on start
+  useEffect(() => { if (self.state.user) A.refresh(self); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // public tracking page: fetch the order by its link token
+  useEffect(() => { A.loadTrack(self, state.trackToken); }, [state.trackToken]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // viewport width + public tracking hash
   useEffect(() => {

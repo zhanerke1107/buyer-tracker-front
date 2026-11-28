@@ -37,4 +37,4 @@ src/
   screens/       Auth, Track, Dashboard, Orders, Shipments, MapScreen
 ```
 
-Данные пока хранятся в `localStorage` браузера (как в прототипе) — бэкенд не подключён.
+Данные хранятся в бэкенде `../Buyer-track-back` (FastAPI + SQLite). Запустите его на :8000 — Vite проксирует `/api` туда (`src/lib/api.js`).
